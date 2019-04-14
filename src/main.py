@@ -4,7 +4,6 @@ from login import r, token #login file, secret stuff
 
 client=discord.Client()
 used=[]
-f = open("used", "wb")
 helpmsg = """
 ?meme for a meme
 ?wallpaper for a wallpaper
