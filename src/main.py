@@ -53,7 +53,6 @@ async def on_message(message):
         await client.send_message(message.channel, get_post_reddit(subreddit, "img"))
     await sendMsg("i will hack ur pc", None, message, None, False,
                   text="Pleas no hack my pc my ip is 127.0.0.1 my mom just buyed this computer have mercy")
-    await sendMsg("Özgür is a retard", None, message, None, False, text="Yes he is")
-    await sendMsg("?cringe", "criingetopia", message, "img", True)
+    await sendMsg("?cringe", "cringetopia", message, "img", True)
     await sendMsg("?code", None, message, None, False, text="")
 client.run(token)
