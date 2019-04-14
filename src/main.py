@@ -1,6 +1,6 @@
 import discord
 
-from login import r, token
+from login import r, token #login file, secret stuff
 
 client=discord.Client()
 used=[]
