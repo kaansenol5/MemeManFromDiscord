@@ -72,10 +72,18 @@ async def feature_request(message):
             with open("requests.txt", "a") as f:
                 f.write(f"{message.author} on {message.guild} requests {message.content.replace('?request:','')} \n\n")
                 print("request made")
-                #break
+                message.channel.send("Thanks!")
         else:
-            print("retard")
+            message.channel.send("You are banned from using this feature")
 
+async def bugreport(message):
+    if "?bugreport:" in message.content:
+        if str(message.author) not in bannedusers:
+            with open("reports.txt", "a") as f:
+                f.write(f"{message.author} on {message.guild} reports {message.content.replace('?report:','')} \n\n")
+                message.channel.send("Thanks!")
+        else:
+            message.channel.send("You are banned from using this feature.")
 
 @client.event
 async def on_message(message):
