@@ -1,7 +1,8 @@
 from login import r, token  # login file, secret stuff
 import random,time
 from chatterbot  import ChatBot
-from chatterbot.trainers import ListTrainer,UbuntuCorpusTrainer
+from discord.ext import commands
+from chatterbot.trainers import ListTrainer,ChatterBotCorpusTrainer
 
 used=[]
 
@@ -14,19 +15,17 @@ bot = ChatBot(
         },
         {
             'import_path': 'chatterbot.logic.MathematicalEvaluation'
-        },
-        {
-            'import_path':'chatterbot.logic.TimeLogicAdapter'
         }
     ]
 )
 
  
 #conversation = open('chatbot/converstions.txt','r').readlines()
- 
-trainer = UbuntuCorpusTrainer(bot)
+trainer = ChatterBotCorpusTrainer(bot)
 
-trainer.train()
+trainer.train(
+    "chatterbot.corpus.english"
+)
 
 helpmsg = """
 ?meme for a meme
@@ -40,6 +39,9 @@ If you want this feature to be free, dont misuse it!
 ?code to view the github repo
 """
 
+
+
+client=commands.Bot(command_prefix="?")
 
 def sub(x):
     return r.subreddit(x)
@@ -109,8 +111,10 @@ async def hack(message):
 async def talktochatbot(message):
     if message.content.startswith("?chatbot:"):
         dialogue=message.content.replace("?chatbot:","")
-        botanswer=ChatBot.get_response(dialogue)
-        message.channel.send(f"ChatBot: {botanswer}")
+        botanswer=bot.get_response(dialogue)
+        await message.channel.send(f"ChatBot: {botanswer}")
+
+
 #TODO commit despasito
 
 
@@ -130,4 +134,5 @@ async def main(message):
     await sendMsg("?help",helpmsg,message)
     await sendMsg("abeh","ABEH MOMENTS \n"*10,message)
     await sendMsg("?who is şenoli","he is my lord and he molested me",message)
+    await talktochatbot(message)
     await sendMsg2("?hat",random.choice(["https://www.tilley.com/media/catalog/product/l/t/ltm6_khaki_a_1.jpg","http://www.wildearth.com.au/assets/full/793.jpg"]),message)
