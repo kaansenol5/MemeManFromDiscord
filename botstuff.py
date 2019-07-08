@@ -3,7 +3,10 @@ import random,time
 from chatterbot  import ChatBot
 from discord.ext import commands
 from chatterbot.trainers import ListTrainer,ChatterBotCorpusTrainer
-
+from googlesearch import search_images
+import  urbandictionary as urban
+import requests
+from bs4 import BeautifulSoup as bs
 used=[]
 
 bot = ChatBot(
@@ -109,13 +112,36 @@ async def hack(message):
 
 
 async def talktochatbot(message):
-    if message.content.startswith("?chatbot:"):
-        dialogue=message.content.replace("?chatbot:","")
+    if message.content.startswith("?chatbot "):
+        dialogue=message.content.replace("?chatbot ","")
         botanswer=bot.get_response(dialogue)
         await message.channel.send(f"ChatBot: {botanswer}")
 
 
-#TODO commit despasito
+async def urbansearch(message):
+    if message.content.startswith("?urban "):
+        query=message.content.replace("?urban ","")
+        print(query)
+        r= requests.get(f"https://www.urbandictionary.com/define.php?term={query}")
+        if r.status_code != 200:
+            print(r.status_code)
+            if r.status_code == 404:
+                message.channel.send("That does not exist")
+
+            return
+        soup = bs(r.content,"html.parser")
+        definition=soup.find("div","meaning").text
+        await message.channel.send(definition)
+
+async def googleimages(message):
+    if message.content.startswith("?imagesearch "):
+        query=message.content.replace("?imagesearch ","")
+        for url in search_images(query,stop=1):
+            print("oof")
+            await message.channel.send(url)
+
+
+
 
 
 async def main(message):
@@ -133,6 +159,8 @@ async def main(message):
     await sendMsg2("hack","oh nononononono pls no hack my computor my mom bought thgis yesterday she will be so mad pls just take my ip 127.0.0.1 pls no hack me",message)
     await sendMsg("?help",helpmsg,message)
     await sendMsg("abeh","ABEH MOMENTS \n"*10,message)
-    await sendMsg("?who is şenoli","he is my lord and he molested me",message)
     await talktochatbot(message)
+    await sendReddit("?cursed","cursedimages","img",message)
+    await urbansearch(message)
+#    await googleimages(message) not working
     await sendMsg2("?hat",random.choice(["https://www.tilley.com/media/catalog/product/l/t/ltm6_khaki_a_1.jpg","http://www.wildearth.com.au/assets/full/793.jpg"]),message)
