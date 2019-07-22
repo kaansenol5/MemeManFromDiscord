@@ -4,12 +4,9 @@ import login
 
 
 
-
-
-
 @botstuff.client.event
 async def on_ready():
-    print("dametucosita")
+    print("bot ready")
 
 
 
