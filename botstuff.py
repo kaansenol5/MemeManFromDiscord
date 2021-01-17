@@ -1,34 +1,20 @@
-from login import r, token  # login file, secret stuff
 import random,time
-from chatterbot  import ChatBot
 from discord.ext import commands
-from chatterbot.trainers import ListTrainer,ChatterBotCorpusTrainer
-from googlesearch import search_images
+import praw
 import  urbandictionary as urban
 import requests
 from bs4 import BeautifulSoup as bs
+import json
 used=[]
-
-bot = ChatBot(
-    'ChatBot-MemeMan',
-    storage_adapter='chatterbot.storage.SQLStorageAdapter',
-    logic_adapters=[
-        {
-            'import_path': 'chatterbot.logic.BestMatch'
-        },
-        {
-            'import_path': 'chatterbot.logic.MathematicalEvaluation'
-        }
-    ]
-)
-
- 
-#conversation = open('chatbot/converstions.txt','r').readlines()
-trainer = ChatterBotCorpusTrainer(bot)
-
-trainer.train(
-    "chatterbot.corpus.english"
-)
+keyfile=open("login.json")
+keys = json.load(keyfile)
+cl_id = keys["reddit-key"]
+cl_secret = keys["reddit-secret"]
+r = reddit = praw.Reddit(
+     client_id=cl_id,
+     client_secret=cl_secret,
+     user_agent="mememanfromdiscord"
+ )
 
 helpmsg = """
 ?meme for a meme
@@ -98,7 +84,7 @@ async def epicrate(message):
     if message.content.startswith("?epicrate"):
         user=message.content.replace("?epicrate ","")
         rate=random.randint(0,100000)
-        if user == "MonsterSphaget":
+        if user == r"*kaan*":
             rate=1000000000000000000000000000
         await message.channel.send(f"Epicrate of {user} is {rate} ")
 
@@ -111,11 +97,6 @@ async def hack(message):
         await message.channel.send(f"Abortnited {target}")
 
 
-async def talktochatbot(message):
-    if message.content.startswith("?chatbot "):
-        dialogue=message.content.replace("?chatbot ","")
-        botanswer=bot.get_response(dialogue)
-        await message.channel.send(f"ChatBot: {botanswer}")
 
 
 async def urbansearch(message):
@@ -159,7 +140,6 @@ async def main(message):
     await sendMsg2("hack","oh nononononono pls no hack my computor my mom bought thgis yesterday she will be so mad pls just take my ip 127.0.0.1 pls no hack me",message)
     await sendMsg("?help",helpmsg,message)
     await sendMsg("abeh","ABEH MOMENTS \n"*10,message)
-    await talktochatbot(message)
     await sendReddit("?cursed","cursedimages","img",message)
     await urbansearch(message)
 #    await googleimages(message) not working
