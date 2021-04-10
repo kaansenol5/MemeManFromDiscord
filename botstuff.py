@@ -1,7 +1,6 @@
 import random,time
 from discord.ext import commands
 import praw
-import  urbandictionary as urban
 import requests
 from bs4 import BeautifulSoup as bs
 import json
@@ -114,14 +113,6 @@ async def urbansearch(message):
         definition=soup.find("div","meaning").text
         await message.channel.send(definition)
 
-async def googleimages(message):
-    if message.content.startswith("?imagesearch "):
-        query=message.content.replace("?imagesearch ","")
-        for url in search_images(query,stop=1):
-            print("oof")
-            await message.channel.send(url)
-
-
 
 
 
@@ -130,17 +121,18 @@ async def main(message):
     await peepeesize(message)
     await ball(message)
     await sendReddit("?meme",random.choice(["dankmemes","memes","me_irl","historymemes"]),"img",message)
-    await sendReddit("?unfunny",random.choice(["comedycemetery","okbuddyretard","terriblefacebookmemes"]),"img",message)
+    await sendReddit("?unfunny",random.choice(["comedycemetery","terriblefacebookmemes"]),"img",message)
+    await sendReddit("?türko", random.choice(["turkeyjerky", "shitposttc", "tamamahbapengelli", "kgbtr"]), "img", message)
+    await sendReddit("?shitpost", "shitposting", "img", message)
+    await sendMsg2("is kaan hawli", "kaan is hawli", message)
     await sendReddit("?copypasta","copypasta","txt",message)
     await sendReddit("?tifu","tifu","txt",message)
     await sendReddit("?unsee","eyebleach","img",message)
     await sendReddit("?cringe","cringetopia","img",message)
     await sendReddit("?showertoughts","showerthoughts","txt",message)
-    await sendMsg("?code","https://github.com/kaansenol5/MemeManFromDiscord",message)
+    await sendMsg("?githubrepo","https://github.com/kaansenol5/MemeManFromDiscord",message)
     await sendMsg2("hack","oh nononononono pls no hack my computor my mom bought thgis yesterday she will be so mad pls just take my ip 127.0.0.1 pls no hack me",message)
     await sendMsg("?help",helpmsg,message)
     await sendMsg("abeh","ABEH MOMENTS \n"*10,message)
     await sendReddit("?cursed","cursedimages","img",message)
     await urbansearch(message)
-#    await googleimages(message) not working
-    await sendMsg2("?hat",random.choice(["https://www.tilley.com/media/catalog/product/l/t/ltm6_khaki_a_1.jpg","http://www.wildearth.com.au/assets/full/793.jpg"]),message)
